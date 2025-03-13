@@ -1,12 +1,13 @@
 [package]
-name = "director-decode"
+name = "director-decoder"
 version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+edition = "2024"
 
 [dependencies]
 anyhow = "1.0.80"
+clap = { version = "4.5.31", features = ["derive"] }
 encoding = "0.2.33"
 png = "0.17.16"
+softbuffer = "0.4.6"
 thousands = "0.2.0"
+winit = { version = "0.30.9" }
