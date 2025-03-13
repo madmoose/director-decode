@@ -82,7 +82,13 @@ impl ApplicationHandler for App<'_> {
                     let window_size = window.inner_size();
                     for item in &self.display_list {
                         match item {
-                            player::DisplayObject::Bitmap { id, rect, image } => {
+                            player::DisplayObject::Bitmap {
+                                id,
+                                rect,
+                                image,
+                                draw_mode,
+                            } => {
+                                let _ = id;
                                 let destination = &mut gfx::ImageBuffer::<&mut [u32]>::new(
                                     window_size.width as usize,
                                     window_size.height as usize,
@@ -97,15 +103,15 @@ impl ApplicationHandler for App<'_> {
                                     x1: source.width() as i16,
                                 };
                                 let palette = &self.player.palette;
-                                let transparent_color_index = if source_rect.width() < 200 {
-                                    Some(0)
-                                } else {
-                                    None
+
+                                let transparent_color_index = match draw_mode {
+                                    player::DrawMode::Copy => None,
+                                    player::DrawMode::TransparentColorIndex(index) => Some(*index),
                                 };
 
-                                source
-                                    .save_to_png(palette, &format!("out/{}.png", id.id()))
-                                    .unwrap();
+                                // source
+                                //     .save_to_png(palette, &format!("out/{}.png", id.id()))
+                                //     .unwrap();
 
                                 gfx::blit(
                                     destination,

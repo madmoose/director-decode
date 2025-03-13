@@ -178,7 +178,8 @@ impl Frame {
             println!("\t\tFore Color:  {}", channel.fore_color);
             println!("\t\tBack Color:  {}", channel.back_color);
             println!("\t\tThickness:   {}", channel.thickness);
-            println!("\t\tInk:         {}", channel.ink);
+            println!("\t\tInk:         {:02x}", channel.ink);
+            println!("\t\tCast Member: {:?}", channel.cast_member_id);
             println!("\t\tBack Color:  {}", channel.back_color);
             println!("\t\tPosition:    {:?}", channel.position);
             println!("\t\tSize:        {:?}", channel.size);

@@ -15,7 +15,14 @@ pub enum DisplayObject {
         id: cast_members::CastMemberId,
         rect: gfx::Rect,
         image: Rc<gfx::IndexedImage>,
+        draw_mode: DrawMode,
     },
+}
+
+#[derive(Debug)]
+pub enum DrawMode {
+    Copy,
+    TransparentColorIndex(u8),
 }
 
 pub type DisplayList = Vec<DisplayObject>;
@@ -123,10 +130,17 @@ impl<'a> Player<'a> {
                         .translate(-bitmap_cast_member.info.reg)
                         .translate(channel.position);
 
+                    let draw_mode = match channel.ink {
+                        0 => DrawMode::Copy,
+                        36 => DrawMode::TransparentColorIndex(channel.back_color),
+                        _ => DrawMode::Copy,
+                    };
+
                     display_list.push(DisplayObject::Bitmap {
                         id: cast_member_id,
                         rect,
                         image: Rc::new(image),
+                        draw_mode,
                     });
                 }
             }
